@@ -80,6 +80,7 @@ class Server(oauth2lib.AuthorizationEndpoint, oauth2lib.TokenEndpoint,
         :param kwargs: Extra parameters to pass to authorization-,
                        token-, resource-, and revocation-endpoint constructors.
         """
+        expiresin=3600
         auth_grant = oauth2lib.AuthorizationCodeGrant(request_validator)
         implicit_grant = oauth2lib.ImplicitGrant(request_validator)
         password_grant = oauth2lib.ResourceOwnerPasswordCredentialsGrant(
@@ -87,7 +88,9 @@ class Server(oauth2lib.AuthorizationEndpoint, oauth2lib.TokenEndpoint,
         credentials_grant = oauth2lib.ClientCredentialsGrant(request_validator)
         refresh_grant = oauth2lib.RefreshTokenGrant(request_validator)
         bearer = oauth2lib.BearerToken(request_validator, token_generator,
-                             token_expires_in, refresh_token_generator)
+                             #token_expires_in, refresh_token_generator)
+                             expiresin, refresh_token_generator)
+        LOG.info("xxxxxxxxxxxxxxxxxxoauth2.0 %d:",expiresin);
         oauth2lib.AuthorizationEndpoint.__init__(
             self,
             default_response_type='code',
